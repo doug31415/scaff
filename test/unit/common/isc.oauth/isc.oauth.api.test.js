@@ -7,6 +7,19 @@
   // Factory/service
   describe( 'isc.oauth.api', function() {
 
+    var mockMd5 = jasmine.createSpyObj( "mockMd5", ["createHash"] );
+    mockMd5.createHash.and.returnValue( "state123" );
+
+    beforeEach( function(  ) {
+      angular.module("angular-md5", []);
+    } );
+
+    beforeEach( module( function( $provide ) {
+      $provide.factory( "md5", function() {
+        return mockMd5;
+      } )
+    } ) );
+
     // setup devlog
     beforeEach( module( 'isc.core', 'isc.common', 'isc.oauth', function( devlogProvider ) {
       devlogProvider.loadConfig( {} );

@@ -1,53 +1,60 @@
 (function() {
   'use strict';
 
-  var suite;
-
-  var oauthConfig = {
-    'client'          : "testClientId:testClientSecret",
-    'redirectUrl'     : "testRedirectUrl",
-    'scope'           : "user/*.read",
-    'responseType'    : 'code',
-    'responseMode'    : 'query',
-    'oauthBaseUrl'    : "testOauthBaseUrl",
-    'aud'             : "testAud",
-    'state'           : "state123",
-    'requestGrantType': 'authorization_code',
-    'refreshGrantType': 'refresh_token'
-  };
-
-  var getUrlList = [
-    "getAuthorizationUrl",
-    "getRequestTokenUrl",
-    "getRevocationUrl",
-    "getUserInfoUrl",
-    "getIntrospectionUrl"
-  ];
-
-
   describe( 'isc.oauth.service', function() {
+    var suite;
+
+    var oauthConfig = {
+      'client'          : "testClientId:testClientSecret",
+      'redirectUrl'     : "testRedirectUrl",
+      'scope'           : "user/*.read",
+      'responseType'    : 'code',
+      'responseMode'    : 'query',
+      'oauthBaseUrl'    : "testOauthBaseUrl",
+      'aud'             : "testAud",
+      'state'           : "state123",
+      'requestGrantType': 'authorization_code',
+      'refreshGrantType': 'refresh_token',
+      'launch'          : null,
+      'params'          : {}
+    };
+
+    var getUrlList = [
+      "getAuthorizationUrl",
+      "getRequestTokenUrl",
+      "getRevocationUrl",
+      "getUserInfoUrl",
+      "getIntrospectionUrl"
+    ];
+
+
     var mockMd5 = jasmine.createSpyObj( "mockMd5", ["createHash"] );
     mockMd5.createHash.and.returnValue( "state123" );
 
-    // setup devlog
-    beforeEach( module( 'isc.core', 'isc.common', 'isc.oauth', function( devlogProvider, $provide ) {
-      devlogProvider.loadConfig( {} );
+
+    beforeEach( function(  ) {
+      angular.module("angular-md5", []);
+    } );
+
+    beforeEach( module( function( $provide ) {
       $provide.factory( "md5", function() {
         return mockMd5;
       } )
     } ) );
 
-    beforeEach( inject( function( $httpBackend,
+    // useDefaultModules('isc.common','angular-md5','isc.oauth');
+    useDefaultModules('isc.common','isc.oauth');
+
+    beforeEach( inject( function(
       $window,
       $rootScope,
       md5,
       iscSessionStorageHelper,
-      iscOauthService ) {
+      iscOauthService) {
 
       suite = {
         $window                : $window,
         $rootScope             : $rootScope,
-        $httpBackend           : $httpBackend,
         md5                    : md5,
         iscSessionStorageHelper: iscSessionStorageHelper,
         iscOauthService        : iscOauthService
@@ -60,6 +67,7 @@
 
     beforeEach( function() {
       suite.iscOauthService.clearOauthConfig();
+      suite.iscOauthService.configure({});
       suite.iscOauthService.saveOauthConfig( oauthConfig );
     } );
 
@@ -140,7 +148,7 @@
 
       suite.iscOauthService.clearOauthConfig();
       expect( suite.iscSessionStorageHelper.removeFromSessionStorage ).toHaveBeenCalledWith( 'state123' );
-      expect( suite.iscSessionStorageHelper.removeFromSessionStorage ).toHaveBeenCalledWith( 'oauthState' );
+      expect( suite.iscSessionStorageHelper.removeFromSessionStorage ).toHaveBeenCalledWith( 'oauthAppState' );
 
     } );
 
