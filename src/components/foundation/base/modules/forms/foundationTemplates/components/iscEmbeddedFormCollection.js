@@ -232,6 +232,7 @@
           evalContext: $scope.$eval,
           options    : collectionOpts,
           callbacks  : _.extend( {}, {
+            invokeExpr        : invokeExpr,
             editForm          : editForm,
             emitInfo          : emitInfo,
             removeForm        : removeForm,
@@ -719,6 +720,10 @@
           data : data,
           index: index
         } );
+      }
+
+      function invokeExpr( expr ) {
+        return $scope.$eval( expr, self );
       }
 
       /**
