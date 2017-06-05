@@ -17,7 +17,7 @@
         ]
       },
       logLevel  : "error",
-      browserNoActivityTimeout : 45000,
+      browserNoActivityTimeout : 75000,
       frameworks: ['jasmine', 'fixture'],
 
       browsers: ['PhantomJS'],
