@@ -34,7 +34,12 @@
         return _.camelCase( key );
       } );
       $http.defaults.headers.common.AUTHORIZATION = "BEARER " + formattedToken.accessToken;
-      iscOauthService.saveOauthConfig( formattedToken );
+
+      if ( !token.patient ) {
+        iscOauthService.saveOauthConfig( formattedToken );
+      }else {
+        iscOauthService.configure( formattedToken );
+      }
       return formattedToken;
     }
 
@@ -99,9 +104,8 @@
     function doOauthCheck( stateParams ) {
       // check for query params -- code, state, iss, launch
       var params = _.pickBy( stateParams, _.identity );
-
-      var isSameState = params.state === iscSessionStorageHelper.getValFromSessionStorage( 'oauthState' );
-
+      var stateKey = iscOauthService.getAppStateKey();
+      var isSameState = params.state === iscSessionStorageHelper.getValFromSessionStorage( stateKey );
       // if authorization code and query param available, get token and user
       if ( params.code && isSameState ) {
         return api.requestToken( params.code ).then( function( token ) {

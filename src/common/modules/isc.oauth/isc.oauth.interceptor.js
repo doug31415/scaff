@@ -5,7 +5,7 @@
     .factory( 'iscOauthInterceptor', iscOauthInterceptor );
 
   /* @ngInject */
-  function iscOauthInterceptor( $injector, devlog ) {//jshint ignore:line
+  function iscOauthInterceptor( $injector, devlog, $q ) {//jshint ignore:line
     var log = devlog.channel( 'iscOauthInterceptor' );
 
     var $http;
@@ -16,7 +16,8 @@
     // ----------------------------
 
     var factory = {
-      request: request
+      request      : request,
+      responseError: responseError
     };
 
     return factory;
@@ -37,6 +38,12 @@
         _.set( $http, "defaults.headers.common.AUTHORIZATION", "BEARER " + token );
       }
       return config;
+    }
+
+    function responseError( response ) {
+
+      // $rootScope.$emit( AUTH_EVENTS.notAuthenticated, response );
+      return $q.reject( response );
     }
   }// END CLASS
 
