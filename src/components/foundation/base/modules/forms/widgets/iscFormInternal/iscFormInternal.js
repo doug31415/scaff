@@ -386,11 +386,16 @@
        */
       function submitForm() {
         var submitConfig  = _.get( self.buttonConfig, 'buttons.submit', {} ),
+            beforeClick   = submitConfig.beforeClick || function() { return true; },
             onSubmit      = submitConfig.onClick || _.noop,
             afterSubmit   = submitConfig.afterClick || _.noop,
             onSubmitError = submitConfig.onError || onError;
 
-        $q.when( onSubmit( self ), afterSubmit, onSubmitError );
+        $q.when( beforeClick(), doSubmit );
+
+        function doSubmit() {
+          return $q.when( onSubmit( self ), afterSubmit, onSubmitError );
+        }
 
         function onError( error ) {
           iscNotificationService.showAlert( {
