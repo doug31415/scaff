@@ -284,6 +284,71 @@
         } );
       } );
 
+      describe( 'beforeClick tests', function() {
+        //--------------------
+        it( 'should not complete submission if beforeClick is rejected', function() {
+          createForm( function() {
+            return suiteMain.$q.reject();
+          } );
+
+          var suite              = suiteSimple1,
+              submitButton       = getButton( suite, 'submit' ),
+              buttonConfig       = getButtonConfig( suite ),
+              submitButtonConfig = buttonConfig.buttons.submit;
+
+          spyOn( submitButtonConfig, 'beforeClick' ).and.callThrough();
+          spyOn( submitButtonConfig, 'onClick' ).and.callThrough();
+          spyOn( submitButtonConfig, 'afterClick' ).and.callThrough();
+
+          // clicking submit should call the submit api
+          submitButton.click();
+          suiteMain.$timeout.flush();
+
+          // beforeClick is rejected, so onClick and afterClick should NOT be called
+          expect( submitButtonConfig.onClick ).not.toHaveBeenCalled();
+          expect( submitButtonConfig.afterClick ).not.toHaveBeenCalled();
+        } );
+
+        //--------------------
+        it( 'should complete submission once beforeClick is resolved', function() {
+          createForm( function() {
+            return suiteMain.$q.resolve();
+          } );
+
+          var suite              = suiteSimple1,
+              submitButton       = getButton( suite, 'submit' ),
+              buttonConfig       = getButtonConfig( suite ),
+              submitButtonConfig = buttonConfig.buttons.submit;
+
+          spyOn( submitButtonConfig, 'beforeClick' ).and.callThrough();
+          spyOn( submitButtonConfig, 'onClick' ).and.callThrough();
+          spyOn( submitButtonConfig, 'afterClick' ).and.callThrough();
+
+          // clicking submit should call the submit api
+          submitButton.click();
+          suiteMain.$timeout.flush();
+
+          // beforeClick is resolved, so onClick and afterClick SHOULD be called
+          expect( submitButtonConfig.onClick ).toHaveBeenCalled();
+
+          suiteMain.$httpBackend.flush();
+          expect( submitButtonConfig.afterClick ).toHaveBeenCalled();
+        } );
+
+        function createForm( beforeClick ) {
+          suiteSimple1 = createDirective( getMinimalForm( 'simple1' ), {
+            localButtonConfig: {
+              buttons: {
+                submit: {
+                  beforeClick: beforeClick
+                }
+              }
+            }
+          } );
+          suiteMain.$httpBackend.flush();
+        }
+      } );
+
       describe( 'simple suite 1 only', function() {
         beforeEach( function() {
           suiteSimple1 = createDirective( getMinimalForm( 'simple1' ) );
