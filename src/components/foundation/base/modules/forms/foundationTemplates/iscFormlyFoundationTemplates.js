@@ -301,17 +301,28 @@
 
       // Date picker (angular-moment-picker)
       iscFormsTemplateService.registerType( {
-        name       : 'datePicker',
-        templateUrl: 'forms/foundationTemplates/templates/datePicker.html',
-        wrapper    : ['templateLabel', 'templateHasError'],
+        name          : 'datePicker',
+        templateUrl   : 'forms/foundationTemplates/templates/datePicker.html',
+        wrapper       : ['templateLabel', 'templateHasError'],
+        defaultOptions: {
+          data: {
+            collections: {
+              tableCell: {
+                templateUrl: 'forms/foundationTemplates/tableTemplates/cell.date.html'
+              }
+            }
+          }
+        },
         /* @ngInject */
-        controller : function( $scope ) {
+        controller    : function( $scope ) {
+          // Normalize an empty date to undefined
+          // Otherwise, null or '' date values will cause the form control to be flagged as $dirty on init,
+          // when the moment-picker control sets its internal model to undefined.
           if ( !_.get( $scope.model, $scope.options.key ) ) {
-            _.set( $scope.model, $scope.options.key, null );
+            _.set( $scope.model, $scope.options.key, undefined );
           }
 
           var dateConfig   = _.get( $scope.options, 'data.date', {} ),
-              model        = _.get( $scope.model, $scope.options.key ),
               modelOptions = _.get( $scope.options, 'modelOptions', {} );
 
           // Need to use updateOn: 'blur' with moment-picker
@@ -326,7 +337,6 @@
             minDate       : $scope.$eval( dateConfig.minDate ),
             maxDate       : $scope.$eval( dateConfig.maxDate ),
             // isc-datepicker properties
-            ngModel       : moment( model, dateConfig.format ),
             ngModelOptions: modelOptions,
             config        : dateConfig
           } );
