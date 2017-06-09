@@ -107,7 +107,7 @@
       // If the date is undefined/empty, pass undefined, since moment(undefined) is the current date
       ctrl.ngModel        = model ? momentModel : undefined;
       // moment-picker also requires a separate formatted model
-      ctrl.formattedModel = (model && format) ? momentModel.format( format ) : model;
+      ctrl.formattedModel = ( model && format ) ? momentModel.format( format ) : model;
 
       // Need to copy ng attributes to moment-picker's input
       copyAttr( 'ngModelOptions' );
