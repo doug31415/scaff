@@ -43,6 +43,8 @@
           'multiCheckbox',
           'radio',
           'select',
+          'typeahead',
+          'typeaheadWithScript',
           'dateComponents',
           'dateComponentsPartial'
         ],
