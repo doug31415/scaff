@@ -77,6 +77,8 @@
           key              = opts.key,
           collectionOpts   = _.get( opts, 'data.collections', {} ),
           collectionConfig = _.get( collectionOpts, 'config', {} ),
+          fieldFilter      = _.get( collectionConfig, 'fieldFilter', {} ),
+          dataFilter       = _.get( collectionConfig, 'dataFilter', {} ),
           dateFormat       = _.get( iscCustomConfigService.getConfig(), 'formats.date.shortDate', 'date' ),
           editAs           = _.get( collectionOpts, 'editAs' ),
           modelType        = _.get( collectionOpts, 'modelType', 'array' ),
@@ -166,6 +168,45 @@
         self.validationErrors = _.get( value, 'records' );
       } );
 
+      // Field/column filtering
+      if ( fieldFilter.listener && fieldFilter.expression ) {
+        var listener = fieldFilter.listener;
+
+        // If the listener is an expression, wrap it in a function for the watch
+        if ( !_.isFunction( listener ) ) {
+          listener = function() {
+            return $scope.$eval( fieldFilter.listener, {
+              formState: self.formState
+            } );
+          };
+        }
+        $scope.$watch( listener, function( newVal, oldVal ) {
+          if ( !angular.equals( newVal, oldVal ) ) {
+            applyFieldFilter();
+          }
+        } );
+      }
+
+      // Data/row filtering
+      if ( dataFilter.listener && dataFilter.expression ) {
+        var listener = dataFilter.listener;
+
+        // If the listener is an expression, wrap it in a function for the watch
+        if ( !_.isFunction( listener ) ) {
+          listener = function() {
+            return $scope.$eval( dataFilter.listener, {
+              formState: self.formState
+            } );
+          };
+        }
+
+        $scope.$watch( listener, function( newVal, oldVal ) {
+          if ( !angular.equals( newVal, oldVal ) ) {
+            applyDataFilter();
+          }
+        } );
+      }
+
       /**
        * @memberOf iscEmbeddedFormCollection
        * @returns {*}
@@ -183,8 +224,9 @@
 
         // Table configuration
         // Fields
-        var tableColumns = _.map( self.flattenedFields, function( field ) {
+        self.tableColumns = _.map( self.flattenedFields, function( field ) {
           return {
+            id         : field.id,
             key        : field.label,
             model      : field.model,
             templateUrl: field.templateUrl,
@@ -212,7 +254,7 @@
           }
 
           if ( actionsTemplate ) {
-            tableColumns.push(
+            self.tableColumns.push(
               {
                 key        : 'Actions',
                 sortable   : false,
@@ -226,7 +268,7 @@
         // The isolation level of the faux-table prevents it from reaching this controller
         self.tableConfig = {
           sortable   : true,
-          columns    : tableColumns,
+          columns    : self.tableColumns,
           emptyText  : _.get( self.options, 'data.collections.emptyMessage' ),
           hideHeader : _.get( self.options, 'data.collections.hideTableHeader' ),
           evalContext: $scope.$eval,
@@ -241,6 +283,67 @@
             hasValidationError: hasValidationError
           }, _.get( self.options, 'data.collections.config.callbacks' ) )
         };
+
+        // Apply any customized field-level filtering
+        if ( fieldFilter.expression ) {
+          applyFieldFilter();
+        }
+      }
+
+      /**
+       * Applies any configured filter on which fields should show in the collection view.
+       */
+      function applyFieldFilter() {
+        if ( fieldFilter.expression ) {
+          var fields  = self.flattenedFields,
+              columns = self.tableColumns;
+
+          var filteredFields = evalFunctionOrExpression( fieldFilter.expression, ['fields'], fields ),
+              excludedFields = _.difference( fields, filteredFields );
+
+          var filteredColumns = _.reject( columns, function( column ) {
+            return _.find( excludedFields, { id: column.id } );
+          } );
+
+          self.tableConfig.columns = filteredColumns;
+        }
+      }
+
+      /**
+       * Applies any configured filter on which rows should show in the collection view.
+       */
+      function applyDataFilter() {
+        if ( dataFilter.expression ) {
+          self.filteredCollection = evalFunctionOrExpression( dataFilter.expression, ['data'], self.collectionModel );
+        }
+        else {
+          self.filteredCollection = self.collectionModel;
+        }
+      }
+
+      /**
+       * @memberOf iscEmbeddedFormCollection
+       * @param expr - The function or expression to evaluate
+       * @param localKeys - An array of local keys that will be mapped to any additional
+       * arguments and provided as a local scope to expr, if it is an expression.
+       * Ex.: evalFunctionOrExpression( 'fields.length + value', ['fields', 'value'], [1, 2, 3], 10 ) will return 13;
+       * @returns {*}
+       */
+      function evalFunctionOrExpression( expr, localKeys ) {
+        var evalArgs = _.toArray( arguments ).slice( 2 );
+        if ( _.isFunction( expr ) ) {
+          return expr.apply( self, evalArgs );
+        }
+        else {
+          // Always inject formState for expressions that use a library
+          var locals = {
+            formState : self.formState
+          };
+          _.forEach( evalArgs, function( arg, index ) {
+            locals[localKeys[index]] = arg;
+          } );
+          return $scope.$eval( expr, locals );
+        }
       }
 
       /**
@@ -424,6 +527,7 @@
           self.collectionModel = model;
         }
 
+        applyDataFilter();
       }
 
       /**
@@ -466,6 +570,8 @@
         else {
           self.ngModelCtrl.$setViewValue( self.collectionModel );
         }
+
+        applyDataFilter();
       }
 
       /**
