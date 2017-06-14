@@ -60,8 +60,8 @@ function includeUiModules( uiModuleNames, appBasePath, appConfig ) {
     } );
 
     _.forEach( individualModuleConfig.dependencies, function( dependency ) {
-      recursivelyPrefixAppPath( masterDepConfig[dependency], appBasePath );
-      _.mergeWith( appConfig, masterDepConfig[dependency], concatArrays );
+      recursivelyPrefixAppPath( dependency, appBasePath );
+      _.mergeWith( appConfig, dependency, concatArrays );
     } );
   }
 
