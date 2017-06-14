@@ -519,9 +519,9 @@
       }
     },
     "browser-sync": {
-      "version": "2.13.0",
-      "from": "browser-sync@2.13.0",
-      "resolved": "https://registry.npmjs.org/browser-sync/-/browser-sync-2.13.0.tgz",
+      "version": "2.18.8",
+      "from": "browser-sync@2.18.8",
+      "resolved": "https://registry.npmjs.org/browser-sync/-/browser-sync-2.18.8.tgz",
       "dependencies": {
         "camelcase": {
           "version": "3.0.0",
