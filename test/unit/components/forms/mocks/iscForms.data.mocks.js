@@ -54,7 +54,8 @@ var resetMockFormStore = function() {
       placeholderData,
       codedItemCollectionData,
       viewModeMockData,
-      collectionLayoutMockData
+      collectionLayoutMockData,
+      filterableData
     ]
   }
 };
@@ -374,6 +375,22 @@ var collectionLayoutMockData = {
         }
       ]
     }
+  }
+};
+
+var filterableData = {
+  "id"  : 8,
+  "data": {
+    "myArray"       : [
+      {
+        "alwaysShows": "1",
+        "filterable" : "test"
+      },
+      {
+        "alwaysShows": "2",
+        "filterable" : "test"
+      }
+    ]
   }
 };
 

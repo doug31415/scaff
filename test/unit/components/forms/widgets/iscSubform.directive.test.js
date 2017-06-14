@@ -722,6 +722,116 @@
       } );
     } );
 
+    //--------------------
+    describe( 'iscSubform - fieldFilter', function() {
+      var useFieldFilter = false,
+          useDataFilter  = false,
+          customArrayFilters,
+          filterLibrary;
+
+      beforeEach( function() {
+        customArrayFilters = {
+          filterFields: false,
+          filterData  : false
+        };
+
+        filterLibrary = {
+          useFieldFilter: function() {
+            return useFieldFilter;
+          },
+          useDataFilter : function() {
+            return useDataFilter;
+          },
+          filterFields  : function( fields ) {
+            if ( useFieldFilter ) {
+              return _.filter( fields, { id: "filterable" } );
+            }
+            return fields;
+          },
+          filterData    : function( data ) {
+            if ( useDataFilter ) {
+              return _.filter( data, function( row ) {
+                return row.alwaysShows === '1';
+              } );
+            }
+            return data;
+          }
+        };
+
+        spyOn( filterLibrary, 'filterFields' ).and.callThrough();
+        spyOn( filterLibrary, 'filterData' ).and.callThrough();
+
+        createDirectives( getMinimalForm( {
+          formKey   : 'fieldAndDataFilters',
+          mode      : 'view',
+          formDataId: 8
+        } ), {
+          formConfig: {
+            library: filterLibrary
+          }
+        } );
+
+        suiteSubform.$scope.$digest();
+      } );
+
+      it( 'should filter the fields/columns in a collection if configured', function() {
+        var suite = suiteSubform,
+            table, tableColumns;
+
+        selectCollection();
+
+        // Find the collection
+        expect( table.length ).toBe( 1 );
+
+        // The filter library function should have been called
+        expect( filterLibrary.filterFields ).toHaveBeenCalled();
+
+        // There should be two columns
+        expect( tableColumns.length ).toBe( 2 );
+
+        // Change the filter listener
+        useFieldFilter = true;
+        suite.$scope.$digest();
+
+        // Now there should only be one column
+        selectCollection();
+        expect( tableColumns.length ).toBe( 1 );
+
+        function selectCollection() {
+          table        = getControlByName( suite, 'myArray' ).find( '.fauxTable' );
+          tableColumns = table.find( '.th' );
+        }
+      } );
+
+      it( 'should filter the data/rows in a collection if configured - functions', function() {
+        var suite = suiteSubform,
+            table, tableRows;
+
+        selectCollection();
+
+        // Find the collection
+        expect( table.length ).toBe( 1 );
+
+        // The filter library function should have been called
+        expect( filterLibrary.filterData ).toHaveBeenCalled();
+
+        // There should be two rows
+        expect( tableRows.length ).toBe( 2 );
+
+        // Change the filter listener
+        useDataFilter = true;
+        suite.$scope.$digest();
+
+        // Now there should only be one row
+        selectCollection();
+        expect( tableRows.length ).toBe( 1 );
+
+        function selectCollection() {
+          table     = getControlByName( suite, 'myArray' ).find( '.fauxTable' );
+          tableRows = table.find( '.tbody' ).find( '.tr' );
+        }
+      } );
+    } );
 
     function createDirectives( rootForm, config ) {
       config    = config || {};
