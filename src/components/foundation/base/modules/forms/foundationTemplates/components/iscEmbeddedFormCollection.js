@@ -170,17 +170,17 @@
 
       // Field/column filtering
       if ( fieldFilter.listener && fieldFilter.expression ) {
-        var listener = fieldFilter.listener;
+        var fieldListener = fieldFilter.listener;
 
         // If the listener is an expression, wrap it in a function for the watch
-        if ( !_.isFunction( listener ) ) {
-          listener = function() {
+        if ( !_.isFunction( fieldListener ) ) {
+          fieldListener = function() {
             return $scope.$eval( fieldFilter.listener, {
               formState: self.formState
             } );
           };
         }
-        $scope.$watch( listener, function( newVal, oldVal ) {
+        $scope.$watch( fieldListener, function( newVal, oldVal ) {
           if ( !angular.equals( newVal, oldVal ) ) {
             applyFieldFilter();
           }
@@ -189,18 +189,17 @@
 
       // Data/row filtering
       if ( dataFilter.listener && dataFilter.expression ) {
-        var listener = dataFilter.listener;
+        var dataListener = dataFilter.listener;
 
         // If the listener is an expression, wrap it in a function for the watch
-        if ( !_.isFunction( listener ) ) {
-          listener = function() {
+        if ( !_.isFunction( dataListener ) ) {
+          dataListener = function() {
             return $scope.$eval( dataFilter.listener, {
               formState: self.formState
             } );
           };
         }
-
-        $scope.$watch( listener, function( newVal, oldVal ) {
+        $scope.$watch( dataListener, function( newVal, oldVal ) {
           if ( !angular.equals( newVal, oldVal ) ) {
             applyDataFilter();
           }
