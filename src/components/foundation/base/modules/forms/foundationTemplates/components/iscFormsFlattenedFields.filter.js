@@ -51,6 +51,7 @@
         return [].concat(
           angular.extend(
             {
+              id            : _.get( field, 'key' ),
               key           : _.get( field, 'data.collections.tableCell.headerLabel' ) || _.get( field, 'key', '' ),
               label         : _.get( field, 'data.collections.tableCell.headerLabel' ) || _.get( field, 'templateOptions.label', '' ),
               model         : _.get( field, 'key', '' ) + (
@@ -59,7 +60,8 @@
                   ( '.' + _.get( field, 'data.displayField', 'name' ) )
                   : ''
               ),
-              templateUrl   : _.get( field, 'data.collections.tableCell.templateUrl' )
+              templateUrl   : _.get( field, 'data.collections.tableCell.templateUrl' ),
+              options       : field
             },
             getCustomDisplayOptions( field )
           )

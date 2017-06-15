@@ -1,0 +1,38 @@
+{
+  "name"     : "Form with Field-level Filters",
+  "sections" : [
+    {
+      "name"   : "Section 1",
+      "fields" : [
+        {
+          "key"  : "myArray",
+          "type" : "embeddedFormCollection",
+          "data" : {
+            "collections"    : {
+              "config" : {
+                "fieldFilter" : {
+                  "listener"   : "formState.lib.useFieldFilter()",
+                  "expression" : "formState.lib.filterFields(fields)"
+                },
+                "dataFilter" : {
+                  "listener"   : "formState.lib.useDataFilter()",
+                  "expression" : "formState.lib.filterData(data)"
+                }
+              }
+            },
+            "embeddedFields" : [
+              {
+                "key"  : "alwaysShows",
+                "type" : "input"
+              },
+              {
+                "key"  : "filterable",
+                "type" : "input"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
