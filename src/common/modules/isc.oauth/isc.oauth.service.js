@@ -78,8 +78,9 @@
 
       var clientId = $window.atob( config.client ).split( ":" )[0];
 
+      var additionalParams = '';
       if ( !_.isEmpty( config.params ) ) {
-        var additionalParams = _.chain( config.params )
+        additionalParams = _.chain( config.params )
           .keys()
           .map( function( key ) {
             return encodeURIComponent( key ) + '=' + encodeURIComponent( config.params[key] );
