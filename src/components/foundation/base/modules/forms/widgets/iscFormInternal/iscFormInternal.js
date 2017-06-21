@@ -16,7 +16,8 @@
    */
   function iscFormInternal( $q, $parse,
     iscCustomConfigService, iscNotificationService,
-    iscFormFieldLayoutService, iscFormsValidationService, iscFormsTransformService ) {
+    iscFormFieldLayoutService, iscFormsValidationService, iscFormsTransformService,
+    FORMS_EVENTS ) {
     var directive = {
       restrict        : 'E',
       replace         : true,
@@ -367,15 +368,18 @@
         if ( self.validateFormApi ) {
           self.validateFormApi().then( function( result ) {
             if ( containingFormIsValid && result.isValid ) {
+              $scope.$emit( FORMS_EVENTS.formValidationSuccess );
               submitForm();
             }
             else {
+              $scope.$emit( FORMS_EVENTS.formValidationError );
               showFailedValidation( $error, result.errors );
             }
           } );
         }
         else {
           if ( containingFormIsValid ) {
+            $scope.$emit( FORMS_EVENTS.formValidationSuccess );
             submitForm();
           }
         }
