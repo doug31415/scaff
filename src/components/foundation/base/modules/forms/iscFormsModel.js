@@ -266,8 +266,15 @@
           $q.all( secondaryPromises ).then( function() {
             form.library = library;
 
+            // Make a deep copy for the view mode version
+            var viewMode = {
+              form    : filterFormSections( angular.merge( {}, form ), 'view' ),
+              subforms: angular.merge( {}, subforms ),
+              metadata: metadata
+            };
+
             var editMode = {
-              form    : form,
+              form    : filterFormSections( form, 'edit' ),
               subforms: subforms,
               metadata: metadata
             };
@@ -276,13 +283,6 @@
             if ( cacheKey ) {
               _formsCache[cacheKey] = editMode;
             }
-
-            // Make a deep copy for the view mode version
-            var viewMode = {
-              form    : angular.merge( {}, form ),
-              subforms: angular.merge( {}, subforms ),
-              metadata: metadata
-            };
 
             // Replace templates in the view mode with readonly versions
             viewModeifySections( viewMode.form.sections );
@@ -303,6 +303,13 @@
 
               default:
                 deferred.resolve( angular.copy( editMode ) );
+            }
+
+            function filterFormSections( formDef, mode ) {
+              formDef.sections = _.filter( formDef.sections, function( section ) {
+                return _.get( section, 'data.excludeMode.' + mode ) !== true;
+              } );
+              return formDef;
             }
 
             function viewModeifySections( sections ) {
