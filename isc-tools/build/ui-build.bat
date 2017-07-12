@@ -98,13 +98,13 @@ SET builtshare=hsui_built_%hsprojectname%_%tempsuffix%
 :: and this approach allows us to get a drive letter allocated without us being susceptible to timing problems
 :: if we try to find an unused drive letter and then use SUBST.
 IF EXIST %builtdir% (
-	NET SHARE %builtshare%=%builtroot% /GRANT:%USERNAME%,FULL /USERS:1
+	NET SHARE %builtshare%=%builtroot% /GRANT:%USERDOMAIN%\%USERNAME%,FULL /USERS:1
 	PUSHD \\localhost\%builtshare%
 	IF EXIST %hsprojectname% (
 		RMDIR /S /Q %hsprojectname%
 	)
 	POPD
-	NET share %builtshare% /DELETE /YES
+	NET SHARE %builtshare% /DELETE /YES
 	RMDIR /S /Q %builtdir%
 )
 :: Copy all files to built\projectname and make writable
@@ -114,7 +114,7 @@ SET uishare=hsui_%hsprojectname%_%tempsuffix%
 
 :: Use NET SHARE to allocate temp drive letters
 :: For the actual source code
-NET SHARE %uishare%=%builtdir% /GRANT:%USERNAME%,FULL /USERS:1
+NET SHARE %uishare%=%builtdir% /GRANT:%USERDOMAIN%\%USERNAME%,FULL /USERS:1
 PUSHD \\localhost\%uishare%
 SET popuishare=1
 SET uisharedir=%CD%
@@ -244,7 +244,7 @@ IF "%popuishare%"=="1" (
 	POPD
 )
 IF NOT "%uishare%" == "" (
-	NET share %uishare% /delete /yes
+	NET SHARE %uishare% /DELETE /YES
 )
 
 SET PATH=%oldpath%
