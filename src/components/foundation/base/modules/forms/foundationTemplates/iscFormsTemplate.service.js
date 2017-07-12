@@ -422,42 +422,44 @@
           var formlyRootCtrl = getFormlyRoot( $scope );
 
           // Validation for external/HS api
-          var removeWatch = $scope.$watch(
-            // Wait for formControl to be populated
-            function() {
-              return $scope.options.formControl;
-            },
-            // Configure a listener for that ngModel and drop the watch
-            function( ngModelController ) {
-              if ( ngModelController ) {
-                removeWatch();
-                var formDef    = formlyRootCtrl.formDefinition,
-                    // Pull the hsValidation params from the form level
-                    // This may need to support field-level modules and recordNames in the future
-                    moduleName = formDef.hsValidationModule,
-                    recordName = formDef.hsValidationRecordName;
+          if ( formsConfig.useExternalValidation ) {
+            var removeWatch = $scope.$watch(
+              // Wait for formControl to be populated
+              function() {
+                return $scope.options.formControl;
+              },
+              // Configure a listener for that ngModel and drop the watch
+              function( ngModelController ) {
+                if ( ngModelController ) {
+                  removeWatch();
+                  var formDef    = formlyRootCtrl.formDefinition,
+                      // Pull the hsValidation params from the form level
+                      // This may need to support field-level modules and recordNames in the future
+                      moduleName = formDef.hsValidationModule,
+                      recordName = formDef.hsValidationRecordName;
 
-                _.extend( hsValidation, {
-                  module    : $window[moduleName],
-                  recordName: recordName
-                } );
+                  _.extend( hsValidation, {
+                    module    : $window[moduleName],
+                    recordName: recordName
+                  } );
 
-                if ( hsValidation.module && hsValidation.recordName && ngModelController.$viewChangeListeners ) {
-                  ngModelController.$viewChangeListeners.push(
-                    function() {
-                      hsModelUtils.validateRecord(
-                        hsValidation.module,
-                        // Currently passing the root form model
-                        // this may need to be scoped to subforms or sections
-                        $scope.formModel,
-                        hsValidation.recordName
-                      );
-                    }
-                  );
+                  if ( hsValidation.module && hsValidation.recordName && ngModelController.$viewChangeListeners ) {
+                    ngModelController.$viewChangeListeners.push(
+                      function() {
+                        hsModelUtils.validateRecord(
+                          hsValidation.module,
+                          // Currently passing the root form model
+                          // this may need to be scoped to subforms or sections
+                          $scope.formModel,
+                          hsValidation.recordName
+                        );
+                      }
+                    );
+                  }
                 }
               }
-            }
-          );
+            );
+          }
 
           // Validation show condition
           switch ( $scope.formOptions.formState._validateOn ) {
