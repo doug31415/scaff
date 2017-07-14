@@ -423,6 +423,7 @@
                     loadFormAsAsset   : loadFormAsAsset,
                     subformDefinitions: subforms,
                     library           : library,
+                    mode              : mode,
                     promiseCache      : promiseCache
                   } )
                     .then( function( embeddedForm ) {
