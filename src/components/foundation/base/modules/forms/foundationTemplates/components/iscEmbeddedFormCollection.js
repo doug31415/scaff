@@ -240,7 +240,11 @@
         } );
 
         // Actions
-        if ( self.mode !== 'view' ) {
+        // Show actions in edit mode and not in view mode, unless otherwise specified
+        var actionConfig = _.get( collectionConfig, 'showActions' ),
+            showActions  = ( !actionConfig && self.mode !== 'view' ) || _.get( actionConfig, self.mode );
+
+        if ( showActions ) {
           var actionsTemplate;
 
           // Default actions template
