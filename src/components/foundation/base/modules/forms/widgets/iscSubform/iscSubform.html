@@ -84,6 +84,7 @@
         <div class="float-right">
           <button class="flat embedded-form-save"
                   type="button"
+                  ng-if="subformCtrl.subformConfig.options.formState._mode==='edit'"
                   ng-class="{'disabled' : subformCtrl.subformConfig.isSubmitDisabled() }"
                   ng-disabled="subformCtrl.subformConfig.isSubmitDisabled()"
                   ng-click="subformCtrl.subformConfig.onSubmit()">
@@ -94,7 +95,7 @@
                   type="button"
                   ng-class="{'disabled' : subformCtrl.subformConfig.isSubmitDisabled() }"
                   ng-disabled="subformCtrl.subformConfig.isSubmitDisabled()"
-                  ng-if="subformCtrl.breadcrumbs.length > 2"
+                  ng-if="subformCtrl.subformConfig.options.formState._mode==='edit' && subformCtrl.breadcrumbs.length > 2"
                   ng-click="subformCtrl.subformConfig.onSubmitAll()">
             {{'Save All' | translate}}
           </button>

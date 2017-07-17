@@ -126,9 +126,14 @@
 
       // Event listeners
       $scope.$on( FORMS_EVENTS.showSubform, function( event, subformParams ) {
-        var childName =
-              $translate.instant( subformParams.isNew ? 'Add' : 'Edit' ) + ' ' +
-              $translate.instant( subformParams.itemLabel );
+        var childName;
+        if ( _.get( subformParams, 'options.formState._mode' ) === 'view' ) {
+          childName = $translate.instant( 'View' );
+        }
+        else {
+          childName = $translate.instant( subformParams.isNew ? 'Add' : 'Edit' );
+        }
+        childName += ' ' + $translate.instant( subformParams.itemLabel );
 
         _.extend( self.childConfig, subformParams );
 
