@@ -24,20 +24,44 @@
       return iscHttpapi.post( url, $httpParamSerializerJQLike( data ), { "headers": headers, showLoader: true } );
     }
 
-    var basicAuthHeader = function() {
-      var client = iscOauthService.get( "client" );
-      return "basic " + $window.btoa( $window.atob( client ) );
-    };
+    function parseJwt( str ) {
+      var token = str.split( '.' )[1];
+      var output = token.replace( /-/g, "+" ).replace( /_/g, "/" );
+      switch ( output.length % 4 ) {
+        case 0:
+          break;
+        case 2:
+          output += "==";
+          break;
+        case 3:
+          output += "=";
+          break;
+        default:
+          throw "Illegal base64url string!";
+      }
+
+      try {
+        return JSON.parse( decodeURIComponent( $window.atob( output ).replace( /(.)/g, function( m, p ) {
+          var code = p.charCodeAt( 0 ).toString( 16 ).toUpperCase();
+          if ( code.length < 2 ) {
+            code = '0' + code;
+          }
+          return '%' + code;
+        } ) ) );
+      } catch ( err ) {
+        return JSON.parse( $window.atob( output ) );
+      }
+    }
 
     function formatAndSaveToken( token ) {
-      var formattedToken                          = _.mapKeys( token, function( value, key ) {
+      var formattedToken = _.mapKeys( token, function( value, key ) {
         return _.camelCase( key );
       } );
-      $http.defaults.headers.common.AUTHORIZATION = "BEARER " + formattedToken.accessToken;
 
+      $http.defaults.headers.common.AUTHORIZATION = "BEARER " + formattedToken.accessToken;
       if ( !token.patient ) {
         iscOauthService.saveOauthConfig( formattedToken );
-      }else {
+      } else {
         iscOauthService.configure( formattedToken );
       }
       return formattedToken;
@@ -52,9 +76,8 @@
       return formPost( iscOauthService.getRequestTokenUrl(), {
         "grant_type"  : "authorization_code",
         "code"        : code,
+        "client_id"   : iscOauthService.get( "client" ),
         "redirect_uri": iscOauthService.get( "redirectUrl" )
-      }, {
-        "AUTHORIZATION": basicAuthHeader()
       } ).then( formatAndSaveToken );
 
     }
@@ -64,18 +87,14 @@
         {
           "grant_type"   : "refresh_token",
           "refresh_token": iscOauthService.get( "refreshToken" )
-        },
-        {
-          "AUTHORIZATION": basicAuthHeader()
         } ).then( formatAndSaveToken );
     }
 
     function revoke() {
-      var clientId = $window.atob( iscOauthService.get( "client" ) ).split( ":" )[0];
       return formPost( iscOauthService.getRevocationUrl(),
         {
           "token"     : iscOauthService.get( "accessToken" ),
-          "client_id" : clientId,
+          "client_id" : iscOauthService.get( "client" ),
           "token_type": "revoke"
         }, {} ).finally( function() {
         $http.defaults.headers.common.AUTHORIZATION = '';
@@ -87,9 +106,6 @@
       return formPost( iscOauthService.getIntrospectionUrl(),
         {
           "token": encodeURIComponent( iscOauthService.get( "accessToken" ) )
-        },
-        {
-          "AUTHORIZATION": basicAuthHeader()
         } );
     }
 
@@ -109,15 +125,17 @@
       // if authorization code and query param available, get token and user
       if ( params.code && isSameState ) {
         return api.requestToken( params.code ).then( function( token ) {
-          return api.getUserInfo().then( function( user ) {
-            user              = _.assignIn( {}, user, { userRole: 'authenticated' } );
-            var oauthResponse = _.assignIn( {}, {
-              "SessionTimeout": _.get( token, "expiresIn", 300 )
-            }, {
-              "UserData": user
-            } );
-            return oauthResponse;
+          var decodedJWT = parseJwt( token.accessToken );
+          var oauthResponse = _.assignIn( {}, {
+            "SessionTimeout": _.get( token, "expiresIn", 300 )
+          }, {
+            "UserData": {
+              id   : _.get( decodedJWT, "healthshare_username" ),
+              name : _.get( decodedJWT, "name" ),
+              roles: _.get( decodedJWT, "healthshare_roles", "authenticated" ).split( "," )
+            }
           } );
+          return oauthResponse;
         } );
       }
 
@@ -157,7 +175,7 @@
         fhirServerUrl += ( ( fhirServerUrl.substr( -1 ) !== '/' ) ? "/metadata" : "metadata" );
       }
 
-      return iscHttpapi.get( fhirServerUrl, { showLoader: true } ).then( function( response ) {
+      return iscHttpapi.get( fhirServerUrl, { showLoader: true , headers : { "X-Requested-With": 'XMLHttpRequest' } } ).then( function( response ) {
         var smartExtension = response.rest[0].security.extension.filter( function( e ) {
           return ( e.url === "http://fhir-registry.smarthealthit.org/StructureDefinition/oauth-uris" );
         } );
