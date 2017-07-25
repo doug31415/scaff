@@ -127,7 +127,7 @@
         return api.requestToken( params.code ).then( function( token ) {
           var decodedJWT = parseJwt( token.accessToken );
           var oauthResponse = _.assignIn( {}, {
-            "SessionTimeout": _.get( token, "expiresIn", 300 )
+            "SessionTimeout": _.get( token, "expiresIn" )
           }, {
             "UserData": {
               id   : _.get( decodedJWT, "healthshare_username" ),
