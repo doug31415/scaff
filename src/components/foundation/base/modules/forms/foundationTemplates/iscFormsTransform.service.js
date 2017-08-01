@@ -244,27 +244,24 @@
      * @returns {Array}
      */
     function wrapFieldGroups( fields ) {
-      if ( transformConfig.wrapFieldGroups ) {
-        return forEachField( fields, function( field ) {
-          if ( field.fieldGroup ) {
-            if ( !_.get( field, 'elementAttributes["transclude-class"]' ) ) {
-              // Provides a selector class for the extra ng-transclude that formly adds to field groups
-              _.set( field, 'elementAttributes["transclude-class"]', 'formly-field-group-ng-transclude' );
-            }
+      return forEachField( fields, function( field ) {
+        if ( field.fieldGroup ) {
+          if ( !_.get( field, 'elementAttributes["transclude-class"]' ) ) {
+            // Provides a selector class for the extra ng-transclude that formly adds to field groups
+            _.set( field, 'elementAttributes["transclude-class"]', 'formly-field-group-ng-transclude' );
+          }
 
+          if ( transformConfig.wrapFieldGroups ) {
             if ( _.get( field, 'templateOptions.label' ) ) {
               var wrapper = field.wrapper || [];
               wrapper.push( 'templateLabel' );
               field.wrapper = _.uniq( wrapper );
             }
-
-            wrapFieldGroups( field.fieldGroup );
           }
-        } );
-      }
-      else {
-        return fields;
-      }
+
+          wrapFieldGroups( field.fieldGroup );
+        }
+      } );
     }
 
     /**
