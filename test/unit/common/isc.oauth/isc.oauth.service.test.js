@@ -5,7 +5,7 @@
     var suite;
 
     var oauthConfig = {
-      'client'          : "testClientId:testClientSecret",
+      'client'          : "testClientId",
       'redirectUrl'     : "testRedirectUrl",
       'scope'           : "user/*.read",
       'responseType'    : 'code',

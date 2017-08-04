@@ -76,7 +76,7 @@
       var config = getOauthConfig();
       var state  = iscSessionStorageHelper.getValFromSessionStorage( getAppStateKey() );
 
-      var clientId = $window.atob( config.client ).split( ":" )[0];
+      var clientId = config.client;
 
       var additionalParams = '';
       if ( !_.isEmpty( config.params ) ) {

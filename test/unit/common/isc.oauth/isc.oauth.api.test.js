@@ -10,6 +10,8 @@
     var mockMd5 = jasmine.createSpyObj( "mockMd5", ["createHash"] );
     mockMd5.createHash.and.returnValue( "state123" );
 
+    var accessToken= "eyJ0eXAiOiJKV1QiLCJhbGciOiJub25lIn0.eyJqdGkiOiJodHRwczovL3FkaHNjcGRldjEuaXNjaW50ZXJuYWwuY29tL29hdXRoMi53SHdGSVp4QmRQRGlaN0I3aUFKUHQtc0dYdjgiLCJpc3MiOiJodHRwczovL3FkaHNjcGRldjEuaXNjaW50ZXJuYWwuY29tL29hdXRoMiIsInN1YiI6InRlc3QiLCJleHAiOjE1MDA5MjI4MzEsImF1ZCI6Imh0dHBzOi8vcWRoc2NwZGV2MS5pc2NpbnRlcm5hbC5jb20vY3NwL2hlYWx0aHNoYXJlL2ZoaXJhY2Nlc3MvZmhpcmFjY2Vzc29hdXRoIiwiaGVhbHRoc2hhcmVfcm9sZXMiOiIlSFNDUF9Vc2VyIiwiaGVhbHRoc2hhcmVfdXNlcm5hbWUiOiJ0ZXN0IiwibmFtZSI6InRlc3QgdGVzdCJ9.";
+
     beforeEach( function(  ) {
       angular.module("angular-md5", []);
     } );
@@ -51,13 +53,11 @@
         iscOauthService        : iscOauthService
       };
 
-      spyOn( suite.$window, "btoa" ).and.callFake( _.identity );
-      spyOn( suite.$window, "atob" ).and.callFake( _.identity );
       spyOn( suite.$window.location, "assign" ).and.callFake( _.identity );
 
       spyOn( suite.iscOauthService, 'get' ).and.callFake( function( query ) {
         if ( query === "client" ) {
-          return "test-" + query + ":test-clientSecret";
+          return "test-" + query;
         }
         return "test-" + query;
       } )
@@ -105,6 +105,7 @@
 
       suite.$httpBackend.expectPOST( "test123", suite.serializer( {
         "grant_type"  : "authorization_code",
+        "client_id" : "test-client",
         "code"        : "auth-123",
         "redirect_uri": "test-redirectUrl"
       } ) ).respond( tokenResponse );
@@ -259,28 +260,24 @@
 
 
     it( 'doOauthCheck should not request token and user , return empty object if for wrong query params', function() {
-      spyOn( suite.iscOauthApi, 'requestToken' ).and.returnValue( suite.$q.when( { expiresIn: 60 } ) );
-      spyOn( suite.iscOauthApi, 'getUserInfo' ).and.returnValue( suite.$q.when( { name: "testUser" } ) );
+      spyOn( suite.iscOauthApi, 'requestToken' ).and.returnValue( suite.$q.when( {} ) );
       spyOn( suite.iscSessionStorageHelper, 'getValFromSessionStorage' ).and.returnValue( 'state123' );
 
       suite.iscOauthApi.doOauthCheck( {} ).then( function( response ) {
         expect( response ).toEqual( {} );
         expect( suite.iscOauthApi.requestToken ).not.toHaveBeenCalled();
-        expect( suite.iscOauthApi.getUserInfo ).not.toHaveBeenCalled();
       } );
       suite.$rootScope.$digest();
 
       suite.iscOauthApi.doOauthCheck( { code: "code123" } ).then( function( response ) {
         expect( response ).toEqual( {} );
         expect( suite.iscOauthApi.requestToken ).not.toHaveBeenCalled();
-        expect( suite.iscOauthApi.getUserInfo ).not.toHaveBeenCalled();
       } );
       suite.$rootScope.$digest();
 
       suite.iscOauthApi.doOauthCheck( { state: "state123" } ).then( function( response ) {
         expect( response ).toEqual( {} );
         expect( suite.iscOauthApi.requestToken ).not.toHaveBeenCalled();
-        expect( suite.iscOauthApi.getUserInfo ).not.toHaveBeenCalled();
       } );
       suite.$rootScope.$digest();
 
@@ -288,14 +285,13 @@
 
 
     it( 'doOauthCheck should request token and user , return oauth response for the right state params', function() {
-      spyOn( suite.iscOauthApi, 'requestToken' ).and.returnValue( suite.$q.when( { expiresIn: 60 } ) );
-      spyOn( suite.iscOauthApi, 'getUserInfo' ).and.returnValue( suite.$q.when( { name: "testUser" } ) );
+      spyOn( suite.iscOauthApi, 'requestToken' ).and.returnValue( suite.$q.when( { "accessToken": accessToken, "expiresIn": 600 } ) );
+
       spyOn( suite.iscSessionStorageHelper, 'getValFromSessionStorage' ).and.returnValue( 'state123' );
 
       suite.iscOauthApi.doOauthCheck( { code: "code123", state: "state123" } ).then( function( response ) {
-        expect( response ).toEqual( { SessionTimeout: 60, UserData: { name: "testUser", userRole: "authenticated" } } );
+        expect( response ).toEqual( { SessionTimeout: 600, UserData: { id: 'test', name: 'test test', roles: [ '%HSCP_User' ] }} );
         expect( suite.iscOauthApi.requestToken ).toHaveBeenCalledWith( "code123" );
-        expect( suite.iscOauthApi.getUserInfo ).toHaveBeenCalled();
       } );
       suite.$rootScope.$digest();
 
