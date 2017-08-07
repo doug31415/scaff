@@ -208,7 +208,8 @@
         rowButtonCallback : '&?',
         tableConfig       : '=',
         tableData         : '=',
-        tableName         : '@?'
+        tableName         : '@?',
+        currentPage       : '=?'
       },
 
       restrict: 'E',
@@ -254,7 +255,7 @@
         self.paginationId = _.get( self, 'tableConfig.key' ) || 'table' + String( _.parseInt( Math.random() * 100000 ) );
 
         self.rowsOnPage  = _.get( self, 'tableConfig.rowsOnPage', 15 );
-        self.currentPage = 1;
+        self.currentPage = self.currentPage || 1;
 
         self.sortField      = { reverse: false };
         self.sortField.name = self.defaultSort || '';
