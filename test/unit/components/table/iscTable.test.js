@@ -106,6 +106,7 @@
       'template-url="fakeTable.html" ' +
       'table-config="tableConfig"' +
       'table-data="tableData"' +
+      'current-page="currentPage"' +
       'default-sort="OrderedItemDisplay"' +
       'back-button-callback="backButtonCallback()"' +
       'row-button-callback="rowButtonCallback( state )">' +
@@ -119,6 +120,7 @@
 
       $rootScope.tableConfig = _.cloneDeep( tableConfig );
       $rootScope.tableData   = _.cloneDeep( tableData );
+      $rootScope.currentPage = 1;
 
       state         = $state;
       state.current = {
@@ -280,6 +282,12 @@
 
       it( "should start on page one", function() {
         expect( isolateScope.iscTblCtrl.currentPage ).toBe( 1 );
+      } );
+
+      it( "should start on a different page if initially passed in", function() {
+        $rootScope.currentPage = 3;
+        compileDirective();
+        expect( isolateScope.iscTblCtrl.currentPage ).toBe( 3 );
       } );
 
       it( "should have a function changePage", function() {
