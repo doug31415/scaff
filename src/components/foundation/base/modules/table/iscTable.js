@@ -202,6 +202,7 @@
       scope: {
         backButtonCallback: '&?',
         defaultSort       : '@?',
+        defaultReverse    : '=?',
         filterFunction    : '&?',
         hasMoreItems      : '=?',
         loadMoreCallback  : '&?',
@@ -256,7 +257,7 @@
         self.rowsOnPage  = _.get( self, 'tableConfig.rowsOnPage', 15 );
         self.currentPage = 1;
 
-        self.sortField      = { reverse: false };
+        self.sortField      = { reverse: self.defaultReverse || false };
         self.sortField.name = self.defaultSort || '';
 
         $scope.$watch(
