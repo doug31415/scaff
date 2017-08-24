@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html ng-app="app" ng-strict-di>
+  <head lang="en">
+    <meta charset="UTF-8">
+    <title ng-bind="$state.current.data.title || 'HealthShare'"></title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+    <!-- inject:css -->
+    <link rel="stylesheet" href="css/main.min.css"/>
+    <!-- contains 16x16, 32x32 and 48x48. -->
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+    <!-- iPhone @2× display with iOS ≥ 7: -->
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="apple-touch-icon-120x120-precomposed.png">
+    <!-- iPad 3+ @2× display with iOS ≥ 7: -->
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="apple-touch-icon-152x152-precomposed.png">
+    <!-- endinject -->
+
+    <!-- fixes foundation bug occurs when foundation when css is not included -->
+    <style>meta.foundation-mq {
+      font-family: "small=&medium=&large=&xlarge=&xxlarge=";
+    }</style>
+  </head>
+
+  <body >
+
+      <isc-critical-banner message="{{mainCtrl.criticalMessage}}"></isc-critical-banner>
+
+      <!-- confirmation -->
+      <isc-confirmation></isc-confirmation>
+
+      <!-- Spinner -->
+      <isc-spinner></isc-spinner>
+
+      <!-- isc-notification for toast messages -->
+      <isc-notification-set></isc-notification-set>
+
+      <!--modal background-->
+      <div class="isc-modal-bkgrnd"></div>
+
+      <div ui-view></div>
+
+      <breakpoints style="height:0; width:0; visibility: hidden;" ></breakpoints>
+      <!-- inject:js -->
+      <!-- endinject -->
+  </body>
+</html>

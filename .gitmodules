@@ -1,0 +1,3 @@
+[submodule "src/uifw-modules"]
+	path = src/uifw-modules
+	url = https://github.com/intersystems/uifw-modules.git

@@ -1,0 +1,693 @@
+//  APP SETTINGS
+//  ----------------------------
+//
+//  Table of Contents:
+//
+//  1.  Color
+//  2.  Typography
+//  3.  App Settings
+//  4.  Breakpoints
+//  5.  Grid
+//  6.  Button
+//  7.  Button Group
+//  8.  Accordion
+//  9.  Action Sheet
+//  10. Block List
+//  11. Breadcrumbs
+//  12. Card
+//  13. Extras
+//  14. Forms
+//  15. Icons
+//  16. Labels & Badges
+//  17. Menu Bar
+//  18. Modal
+//  19. Notification
+//  20. Off-canvas
+//  21. Pagination
+//  22. Panel
+//  23. Popup
+//  24. Tables
+//  25. Tabs
+//  26. Title Bar
+//  27. Tooltips
+//  28. Widgets
+
+@import "../../../components/foundation/base/node_modules/foundation-apps/scss/helpers/functions";
+@import "../../../components/foundation/base/assets/sass/isc/helpers/isc-variables";
+
+
+// 1. COLOR
+/* ------------------------------- */
+// THEME COLOR PALETTES
+/* -------------------------------
+ * Neutral
+ * Primary
+ * Accent
+ * States
+ * Typography
+------------------------------- */
+
+/* Primary Pallete */
+$primary-color: #485163;
+$secondary-color: #a7b8d1;
+$neutral-color: #ebebeb;
+$accent-color: #35b2ea;
+
+/* Neutral Shades */
+$neutral-two: #f1f1f1;
+$neutral-three: #f8f8f8;
+
+/* Typography Pallete */
+$dark-text: #424242;
+$light-text: #ffffff;
+$header-text: #546075;
+$subtext-color: #888;
+
+/* States Pallete */
+$success-color: #00c987;
+$alert-color: #d61e35;
+$warning-color: #FB9B5F;
+$info-color: #B1D5E5;
+
+/* Grays */
+$gray: #ddd;
+$gray-dark: darken($gray, 8);
+$gray-light: lighten($gray, 8);
+
+/* Global Styling */
+$body-background: #fff;
+$app-border-color: $gray;
+$app-bar-link-color: $light-text;
+
+$global-radius: 3px;
+$global-rounded: 1000px;
+
+$global-padding: 1rem;
+$global-spacing: rem-calc(15);
+
+// 2. TYPOGRAPHY
+/* ------------------------------------------------
+ * Font Weight Values
+ * Body & <p> Font Settings
+ * Anchor Links
+ * Headers & Subheaders
+ * Page Titles
+ * Captions
+ * Lists
+ * <small>, <blockquote>, <code>, <acronym>, <hr>
+--------------------------------------------------- */
+
+/* Define Font Weight Values
+/* Match values to chosen font family for optimal rendering
+/* The weights below are configured for Helvetica Neue
+----------------------------------------------*/
+$font-weight-extra-light: 100;
+$font-weight-light: 200;
+$font-weight-normal: 400;
+$font-weight-semi-bold: 600;
+$font-weight-bold: 700;
+$font-weight-ultra-bold: 800;
+
+/* Body & Paragraph <p> Font Settings
+----------------------------------------------*/
+$body-font-color: $dark-text;
+$body-font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+$body-font-weight: $font-weight-normal;
+
+$paragraph-font-size: 1rem;
+$paragraph-line-height: 1.6;
+$paragraph-margin-bottom: rem-calc(20);
+
+/* Anchor Links
+----------------------------------*/
+$anchor-font-color: $accent-color;
+$anchor-text-decoration: none;
+$anchor-text-decoration-hover: none;
+$anchor-font-color-hover: scale-color($anchor-font-color, $lightness: -14%);
+
+/* Headers & Subheaders
+---------------------------------------*/
+$h1-font-size: rem-calc(30);
+$h2-font-size: rem-calc(28);
+$h3-font-size: rem-calc(26);
+$h4-font-size: rem-calc(22);
+$h5-font-size: rem-calc(20);
+$h6-font-size: rem-calc(18);
+
+$header-font-family: $body-font-family;
+$header-font-weight: $font-weight-normal;
+$header-font-style: normal;
+$header-font-color: $header-text;
+$header-line-height: 1.6;
+$header-top-margin: 0;
+$header-bottom-margin: 0.65rem;
+
+/* Headers Size Reduction on Small Screens */
+$h1-font-reduction: rem-calc(4);
+$h2-font-reduction: rem-calc(4);
+$h3-font-reduction: rem-calc(4);
+$h4-font-reduction: rem-calc(2);
+$h5-font-reduction: rem-calc(2);
+$h6-font-reduction: rem-calc(2);
+
+/* Subheaders */
+$subheader-font-color: $subtext-color;
+$subheader-line-height: 1.6;
+$subheader-font-weight: $font-weight-normal;
+$subheader-top-margin: 0.2rem;
+$subheader-bottom-margin: 0.5rem;
+
+/* Page Titles */
+$page-title-font-size: 1.75rem;
+$page-title-color: $header-font-color;
+$page-title-weight: $font-weight-semi-bold;
+$page-title-margin: 0 0 2rem 0;
+$page-title-padding: 0;
+$page-title-font-reduction: rem-calc(4);
+
+/* Captions */
+$caption-background: transparent;
+$caption-font-size: 0.875rem;
+$caption-color: isitlight($caption-background, $subtext-color, $light-text);
+$caption-align: if($global-text-direction == rtl, right, left);
+$caption-padding: 0 0 0.5rem 0;
+$caption-margin: 0 0 0.5rem 0;
+$caption-font-reduction: 0;
+
+/* Lists
+----------------------------------------------*/
+$list-margin-bottom: rem-calc(16);
+$list-style-position: outside;
+$list-side-margin: 1.1rem;
+$list-ordered-side-margin: 1.4rem;
+$list-side-margin-no-bullet: 0;
+$list-nested-margin: 0.75rem;
+$definition-list-header-weight: $font-weight-bold;
+$definition-list-header-margin-bottom: 0.75rem;
+$definition-list-margin-bottom: 1rem;
+
+/* <small>, <blockquote>, <code>, <acronym>, <hr>
+-----------------------------------------------------*/
+$small-font-size: 60%;
+$small-font-color: $subtext-color;
+
+$blockquote-font-color: $body-font-color;
+$blockquote-padding: rem-calc(9 20 0 19);
+$blockquote-border: 2px solid $app-border-color;
+$blockquote-cite-font-size: rem-calc(16);
+$blockquote-cite-font-color: $header-font-color;
+$blockquote-cite-link-color: $anchor-font-color;
+
+$code-color: grayscale($primary-color);
+$code-font-family: Consolas, 'Liberation Mono', Courier, monospace;
+$code-font-weight: $font-weight-normal;
+$code-background-color: $neutral-three;
+$code-border-size: 1px;
+$code-border-style: solid;
+$code-border-color: $app-border-color;
+$code-padding: rem-calc(2) rem-calc(5) rem-calc(1);
+
+$acronym-underline: 1px dotted $app-border-color;
+
+$hr-border-width: 1px;
+$hr-border-style: solid;
+$hr-border-color: $app-border-color;
+$hr-margin: rem-calc(20);
+
+/* Global Language Direction ('ltr', 'rtl' or 'both')
+-----------------------------------------------------*/
+$global-text-direction: ltr;
+
+
+// 3. APP SETTINGS
+/* -------------------------------
+ * Primary Nav (Top nav bar)
+ * Secondary Nav (Page tabs beneath primary nav bar)
+ * Sidebar Nav (Sidebar Navigstion)
+ * Footer (Footer bar & Footer links)
+------------------------------- */
+
+/* Primary Navigation */
+$primary-nav-background: $primary-color;
+$app-bar-link-color: $light-text;
+$app-bar-link-hover-color:  $accent-color;
+$app-bar-text-color:   $light-text;
+
+/* Branding */
+$logo-color: #fff;
+$logo-height: 30px;
+$logo-width: 12px;
+$logo-height-medium: 30px;
+$logo-width-medium: 12px;
+$logo-height-small: 30px;
+$logo-width-small: 12px;
+$app-name-font-size: 1.375rem;
+$app-name-font-size-medium: 1.25rem;
+$app-name-font-size-small: 1.125rem;
+$app-name-font-weight: $font-weight-normal;
+
+/* Secondary Navigation */
+$secondary-nav-background: $neutral-color;
+$secondary-nav-active-background: $body-background;
+
+/* Sidebar Navigation */
+$sidebar-background: scale-color($neutral-color, $lightness: 50%);
+$sidebar-active-background: #ededed;
+
+/* Footer */
+$footer-background:  $primary-color;
+
+/* isc-page Padding */
+$isc-page-padding: 2rem 1.5rem 2rem 1.5rem;
+$isc-page-padding-medium: 2rem 1rem 2rem 1rem;
+$isc-page-padding-small: 2rem 1rem 2rem 1rem;
+
+/* Page Padding (deprecated) */
+$vertical-container-padding: 2rem;
+$horizontal-container-padding: 1.5rem;
+$horizontal-container-padding-small: 1rem;
+
+// 4. BREAKPONTS
+/* -----------------------------------------
+ * Target Sizes: Small, Medium, Large, xlarge, xxlarge
+ * If you need to target something more specific,
+ * add it to the map below.
+----------------------------------------- */
+
+$breakpoints: (
+  'small': rem-calc(0),
+  'medium': rem-calc(859),
+  'large': rem-calc(1025),
+  'xlarge': rem-calc(1440),
+  'xxlarge': rem-calc(1920),
+);
+
+// Listed names are output as CSS classes e.g. small-12, medium-6, etc.
+$breakpoint-classes: (small medium large xlarge xxlarge);
+
+// 5. GRID
+/* ------------------------------ */
+$container-width: rem-calc(1600);
+$block-padding: $global-padding;
+$total-columns: 12;
+$block-grid-max-size: 6;
+
+
+// 6. BUTTON
+/* ------------------------------ */
+$button-padding: 0.75em 1em;
+$button-margin: 0 0 1rem 0;
+$button-style: solid;
+$button-background: $accent-color;
+$button-color: isitlight($button-background, $body-font-color, $light-text);
+$button-cancel-background: $gray;
+$button-background-hover: scale-color($button-background, $lightness: -15%);
+$button-radius: $global-radius;
+
+$button-sizes: (
+  tiny: 0.7,
+  small: 0.8,
+  medium: 1,
+  large: 1.3,
+);
+
+$button-font-size: 1rem;
+$button-opacity-disabled: 0.5;
+
+
+// 7. BUTTON GROUP
+/* ------------------------------ */
+$btngroup-background: $button-background;
+$btngroup-color: auto;
+$btngroup-radius: $global-radius;
+
+
+// 8. ACCORDION
+/* ------------------------------ */
+$accordion-border: 1px solid $app-border-color;
+$accordion-title-background: $neutral-color;
+$accordion-title-background-hover: smartscale($accordion-title-background, 5%);
+$accordion-title-background-active: smartscale($accordion-title-background, 8%);
+$accordion-title-color: isitlight($accordion-title-background, $body-font-color, $light-text);
+$accordion-title-color-active: isitlight($accordion-title-background, $body-font-color, $light-text);
+$accordion-title-padding: $global-padding;
+$accordion-content-padding: $global-padding;
+
+
+// 9. ACTION SHEET
+/* ------------------------------ */
+$actionsheet-background: white;
+$actionsheet-border-color: $app-border-color;
+$actionsheet-animate: transform opacity;
+$actionsheet-animation-speed: 0.25s;
+$actionsheet-width: 300px;
+$actionsheet-shadow: 0 -3px 10px rgba(black, 0.25);
+$actionsheet-padding: $global-padding;
+$actionsheet-tail-size: 10px;
+$actionsheet-popup-shadow: 0 0 10px rgba(black, 0.25);
+$actionsheet-link-color: $anchor-font-color;
+$actionsheet-link-background-hover: smartscale($actionsheet-background);
+
+
+// 10. BLOCK LIST
+/* ------------------------------ */
+$blocklist-background: $body-background;
+$blocklist-fullbleed: true;
+$blocklist-fontsize: $paragraph-font-size;
+$blocklist-item-padding: 0.8rem 1rem;
+$blocklist-item-color: isitlight($blocklist-background, $body-font-color, $light-text);
+$blocklist-item-background-hover: smartscale($blocklist-background, 4.5%);
+$blocklist-item-color-disabled: $gray;
+$blocklist-item-border: 1px solid smartscale($blocklist-background, 18.5%);
+$blocklist-item-label-color: $header-font-color;
+$blocklist-item-icon-size: 0.8;
+$blocklist-header-fontsize: rem-calc(18);
+$blocklist-header-color: $header-font-color;
+$blocklist-header-uppercase: true;
+$blocklist-check-icons: true;
+
+
+// 11. BREADCRUMBS
+/* ------------------------------ */
+$breadcrumb-container-margin: 0.5rem 0 2.75rem 0;
+$breadcrumb-item-padding: 0.65rem 0 0.65rem 2.75rem;
+$breadcrumb-item-padding-medium: 0.65rem 0 0.65rem 2rem;
+$breadcrumb-item-padding-small: 1rem 0 0.3125rem 1.5rem;
+$breadcrumb-color: $primary-nav-background;
+$breadcrumb-color-inverse: $app-bar-link-color;
+
+
+// 12. CARD
+/* ------------------------------ */
+$card-background: #fff;
+$card-color: isitlight($card-background, $body-font-color, $light-text);
+$card-border: 0;
+$card-radius: $global-radius;
+$card-shadow: $shadow-2dp;
+$card-padding: $global-padding;
+$card-margin: 0.5rem;
+$card-divider-background: smartscale($card-background, 7%);
+
+
+// 13. EXTRAS
+/* ------------------------------ */
+$closebutton-position: (top right);
+$closebutton-size: 2em;
+$closebutton-lineheight: 0.5;
+$closebutton-color: $gray;
+$closebutton-color-hover: $anchor-font-color;
+
+$thumbnail-padding: 0.5rem;
+$thumbnail-shadow: $shadow-2dp;
+
+
+// 14. FORMS
+/* ------------------------------ */
+$form-outer-padding: 2rem;
+$input-bottom-margin: 2rem;
+
+/* Text Fields */
+$input-color: $body-font-color;
+$input-color-hover: $input-color;
+$input-color-focus: $input-color;
+$input-background: $body-background;
+$input-background-hover: $input-background;
+$input-background-focus: $input-background;
+$input-background-disabled: smartscale($input-background);
+$input-border: 1px solid $app-border-color;
+$input-border-hover: 1px solid $app-border-color;
+$input-border-focus: 1px solid scale-color($app-border-color, $lightness: -15%);
+$input-cursor-disabled: not-allowed;
+
+/* Select Menus */
+$select-background-hover: smartscale($input-background, 4%);
+
+/* Labels */
+$form-label-margin: 1rem;
+
+/* Range Slider */
+$slider-background: $gray;
+$slider-height: 1rem;
+$slider-radius: 0px;
+$slider-thumb-height: 1.5rem;
+$slider-thumb-color: $primary-color;
+$slider-thumb-radius: 0px;
+
+/* Progress and Meter */
+$meter-height: 1.5rem;
+$meter-background: $gray;
+$meter-fill: $primary-color;
+$meter-fill-high: $success-color;
+$meter-fill-medium: $warning-color;
+$meter-fill-low: $alert-color;
+$meter-radius: 0;
+
+/* Switch */
+$switch-width: rem-calc(50);
+$switch-height: rem-calc(32);
+$switch-background: $gray;
+$switch-background-active: $success-color;
+$switch-border: 0;
+$switch-radius: 9999px;
+$switch-animation-speed: 0.15s;
+$switch-paddle-color: white;
+$switch-paddle-offset: 4px;
+
+
+// 15. ICONS
+/* ------------------------------ */
+$default-icon-color: $body-font-color;
+$default-svg-icon-size: 1.25rem;
+
+/* Icons Controls Map */
+$icon-controls: (
+  delete: "\f00d",
+  add: "\f067",
+  settings: "\f013",
+  view: "\f06e",
+  edit: "\f040",
+  search: "\f002",
+  email: "\f0e0",
+  hamburger: "\f0c9",
+  home: "\f015",
+  save: "\f0c7",
+  cancel: "\f05e",
+  arrowback: "\f060",
+  arrownext: "\f061",
+  arrowup: "\f062",
+  arrowdown: "\f063",
+  checkmark: "\f00c",
+  minus: "\f068",
+  sortable: "\f0dc",
+  filter: "\f0b0",
+  heart: "\f004"
+);
+
+
+// 16. LABELS & BADGES
+/* ------------------------------ */
+$label-fontsize: 0.8rem;
+$label-padding: ($global-padding / 3) ($global-padding / 2);
+$label-radius: 0;
+$label-background: $primary-color;
+$label-color: isitlight($primary-color, $body-font-color, $light-text);
+
+$badge-fontsize: 0.8rem;
+$badge-diameter: 1.65rem;
+$badge-background: $primary-color;
+$badge-color: isitlight($badge-background, $body-font-color, $light-text);
+
+
+// 17. MENU BAR
+/* ------------------------------ */
+$menubar-fontsize: 1rem;
+$menubar-background: transparent;
+$menubar-background-hover: smartscale($menubar-background, 7%);
+$menubar-background-active: $menubar-background-hover;
+$menubar-color: isitlight($menubar-background, $body-font-color, $light-text);
+$menubar-color-hover: smartscale($menubar-color, 7%);
+$menubar-color-active: $menubar-color-hover;
+$menubar-item-padding: $global-padding;
+$menubar-icon-size: 1rem;
+$menubar-icon-spacing: $menubar-item-padding;
+
+
+// 18. MODAL
+/* ------------------------------ */
+$modal-zindex: 1000;
+$modal-sizes: (
+   tiny: 300px,
+   small: 500px,
+   medium: 600px,
+   large: 900px,
+ );
+
+
+// 19. NOTIFICATION
+/* ------------------------------ */
+$notification-default-position: right top;
+$notification-width: rem-calc(400);
+$notification-offset: $global-padding;
+$notification-background: $info-color;
+$notification-color: sitlight($notification-background, $body-font-color, $light-text);
+$notification-padding: $global-padding;
+$notification-radius: $global-radius;
+$notification-icon-size: 60px;
+$notification-icon-margin: $global-padding;
+$notification-icon-align: top;
+
+
+// 20. OFF-CANVAS
+/* ------------------------------ */
+$offcanvas-size-horizontal: 250px;
+$offcanvas-size-vertical: 250px;
+$offcanvas-background: $neutral-color;
+$offcanvas-color: isitlight($offcanvas-background, $body-font-color, $light-text);
+$offcanvas-padding: 0;
+$offcanvas-shadow: 3px 0 10px rgba(black, 0.25);
+$offcanvas-animation-speed: 0.25s;
+
+
+// 21. PAGINATION
+/* ------------------------------ */
+// Structure
+$pagination-link-padding:        0 0.625rem;
+$pagination-margin:              1rem auto;
+$pagination-item-spacing:        0.25rem; // Right margin to separate pagination items.
+
+// Normal State
+$pagination-font-size:           1.125rem;
+$pagination-font-weight:         $font-weight-normal;
+$pagination-color:               $accent-color;
+
+// Hover State
+$pagination-color-hover:         scale-color($anchor-font-color, $lightness: -14%);
+$pagination-background-hover:    transparent;
+
+// Active State
+$pagination-font-weight-active:  $font-weight-bold;
+$pagination-background-active:   transparent;
+$pagination-color-active:        $accent-color;
+
+// Disabled State
+$pagination-color-disabled:      $gray;
+$pagination-background-disabled: transparent;
+
+
+// 22. PANEL
+/* ------------------------------ */
+$panel-size-horizontal: 300px;
+$panel-size-vertical: 300px;
+$panel-padding: 0;
+$panel-background: $neutral-color;
+$panel-shadow: 3px 0 10px rgba(black, 0.25);
+
+
+// 23. POPUP
+/* ------------------------------ */
+$popup-width: rem-calc(300);
+$popup-background: #fff;
+$popup-border: 0;
+$popup-radius: 0;
+$popup-shadow: 0 0 10px rgba(black, 0.25);
+
+
+// 24. TABLES
+/* ------------------------------ */
+/* General Table Styles */
+$table-background: white;
+$table-font-color: isitlight($table-background, $body-font-color, $light-text);
+$table-stripe-background: $neutral-three;
+$table-stripe-font-color: isitlight($table-stripe-background, $body-font-color, $light-text);
+$table-row-border: 1px solid $app-border-color;
+$table-column-border: 1px solid $app-border-color;
+
+$table-font-size: 0.875rem;
+$table-line-height: 1.4;
+$table-cell-padding: 0.65rem;
+
+/* Table Head */
+$th-font-size: 0.875rem;
+$th-font-weight: $font-weight-bold;
+$th-text-align: if($global-text-direction == rtl, right, left);
+$th-background: $table-background;
+
+/* Table Foot */
+$tfoot-background: $th-background;
+$tfoot-font-size: 0.75rem;
+
+/* Table Titles */
+$table-title-font-size: 1.25rem;
+$table-title-color: $header-font-color;
+$table-title-weight: inherit;
+$table-title-align: if($global-text-direction == rtl, right, left);
+$table-title-margin: 0 0 1rem 0;
+$table-title-padding: 0;
+
+/* Responsive Behavior */
+$show-header-for-stacked: true;
+/* Table Font Size Reduction on Small Screens */
+$table-font-reduction: rem-calc(12);
+$th-font-reduction: rem-calc(12);
+$tfoot-font-reduction: rem-calc(12);
+$table-title-font-reduction: rem-calc(16);
+
+
+// 25. TABS
+/* ------------------------------ */
+$tabstrip-background: transparent;
+$tab-title-background: $neutral-color;
+$tab-title-background-hover: smartscale($tab-title-background, 5%);
+$tab-title-background-active: smartscale($tab-title-background, 8%);
+$tab-title-color: isitlight($tab-title-background, $body-font-color, $light-text);
+$tab-title-color-active: $tab-title-color;
+$tab-title-padding: $global-padding;
+$tab-content-padding: $global-padding;
+
+
+// 26. TITLE BAR
+/* ------------------------------ */
+$titlebar-center-width: 50%;
+$titlebar-side-width: (100% - $titlebar-center-width) / 2;
+$titlebar-background: $primary-color;
+$titlebar-color: isitlight($titlebar-background, $body-font-color, $light-text);
+$titlebar-border: 1px solid $app-border-color;
+$titlebar-padding: $global-padding;
+
+
+// 27. TOOLTIPS
+/* ------------------------------ */
+$tooltip-background: $primary-color;
+$tooltip-border: 1px solid smartscale($tooltip-background, 10%);
+$tooltip-font-size: 0.875rem;
+$tooltip-radius: $global-radius;
+$tooltip-line-height: $paragraph-line-height;
+$tooltip-padding: 0.5rem 0.625rem;
+$tooltip-max-width: 75%;
+
+// 28. WIDGETS
+/* ------------------------------ */
+// Widget Container
+$widget-background: #fff;
+$widget-color: isitlight($widget-background, $body-font-color, $light-text);
+$widget-border: 1px solid $app-border-color;
+$widget-radius: $global-radius;
+$widget-shadow: $shadow-1dp;
+$widget-padding: $global-padding;
+$widget-margin: 1rem;
+$widget-divider-background: smartscale($widget-background, 7%);
+$widget-footer-background: $neutral-color;
+
+// Widget Header
+$widget-header-background: #fff;
+$widget-header-padding: 0.75rem 0.5rem;
+$widget-header-icon-color: isitlight($widget-header-background, $gray-dark, $light-text);
+
+// Widget Menu
+$widget-menu-padding: 0.75rem;
+$widget-menu-width: 250px;
+$widget-menu-link-color: $body-font-color;
+$widget-menu-background-hover: smartscale($widget-background);
+$widget-menu-title-margin: 0.5rem;
+
+@import "../../../components/foundation/base/assets/sass/isc/helpers/isc-direction";

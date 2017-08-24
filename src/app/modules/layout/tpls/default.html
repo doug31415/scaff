@@ -1,0 +1,20 @@
+<div class="vertical grid-frame">
+  <zf-notification-set id="main-notifications" position="top-right"></zf-notification-set>
+
+  <!--main app-->
+  <div class="isc-app-content vertical grid-block">
+
+    <!--Responsive Top Navigation-->
+    <div class="isc-nav-bar" ng-controller="iscNavbarController as navbarCtrl"
+         ng-include="'navContainer/iscNavbar.html'">
+    </div>
+
+    <!--page content-->
+    <div class="isc-page vertical grid-content grid-container {{layoutCtrl.layoutClass}}" ui-view></div>
+  </div>
+
+  <!--footer-->
+  <div class="isc-footer grid-block shrink"
+       ng-include="'navContainer/iscFooter.html'"></div>
+
+</div>

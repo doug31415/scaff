@@ -1,0 +1,23 @@
+<div class="grid-block">
+
+  <zf-panel id="sidebar" position="left" class="small-6 medium-grid-block medium-2 large-2">
+    <a zf-close="" class="close-button hide-for-medium">×</a>
+
+    <ul class="vertical menu-bar condense">
+      <li class="item"
+          ng-repeat="navItem in sideNavCtrl.navItems track by $index"
+          ng-class="{'active': tab.$$active }"
+          ng-if="!tab.exclude">
+        <a ng-class="{'active': tab.$$active }"
+           ng-click="sideNavCtrl.setTabActive( tab )"
+           ui-sref="{{navItem.state}}">{{navItem.translationKey | translate}}</a>
+      </li>
+    </ul>
+
+  </zf-panel>
+
+  <div id="main" class="grid-block small-12 medium-10 large-10">
+    <ui-view class="isc-page grid-container contain-left"></ui-view>
+  </div>
+
+</div>

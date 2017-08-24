@@ -1,0 +1,23 @@
+<div class="grid-content grid-container">
+
+  <div class="grid-block align-justify">
+    <!--left-->
+    <div class="grid-block small-6 medium-6 large-6">
+      <ul class="menu-bar small-condense">
+        <li><p>© {{ "2016 InterSystems Corp." | translate}}</p></li>
+        <li class="show-for-large"><p>build: {{navCtrl.versionInfo.app.buildno}}</p></li>
+        <li class="show-for-large"><p>release: {{navCtrl.versionInfo.app.releaseno}}</p></li>
+      </ul>
+    </div>
+
+    <!--right-->
+    <div class="grid-block small-9 medium-6 large-6 shrink">
+      <ul class="menu-bar small-condense">
+        <li><a ui-sref="index.info.about">{{ "About Us" | translate }}</a>
+        <li><a ui-sref="index.info.legal">{{ "Legal" | translate }}</a></li>
+        <li><a ui-sref="index.info.terms">{{ "Terms" | translate }}</a></li>
+      </ul>
+    </div>
+  </div>
+
+</div>

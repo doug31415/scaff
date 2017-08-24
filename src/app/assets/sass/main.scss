@@ -1,0 +1,13 @@
+// import settings file
+@import "settings";
+
+// import isc common
+@import "../../../components/foundation/base/assets/sass/main";
+
+// import app css
+@import "app";
+
+// then custom css
+@import "custom";
+// <!-- inject:scss -->
+// <!-- endinject:scss -->

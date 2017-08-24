@@ -1,0 +1,3 @@
+- Use "gulp i18nExtract" to extract English i18n files.
+- Give these i18n files to the translator to produce other languages
+- Put the translated files (from translator here)

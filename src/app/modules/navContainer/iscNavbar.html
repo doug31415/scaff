@@ -1,0 +1,90 @@
+<!--Primary Nav-->
+<div class="primary-nav">
+
+   <div class="grid-content grid-container">
+     <div class="grid-block menu-group align-justify">
+       <div class="grid-block small-10 medium-6 large-6">
+         <ul class="menu-bar">
+           <li>
+             <a ng-click="navbarCtrl.navigateToUserLandingPage()" class="branding">
+               <div class="grid-block v-align">
+                 <div class="grid-block isc-logo align-center" ng-include="'svg/logo.html'"></div>
+                 <div class="grid-block app-name align-center">{{'InterSystems HealthShare' | translate }}</div>
+               </div>
+             </a>
+           </li>
+         </ul>
+       </div>
+
+       <div class="grid-block menu-group-right medium-6 large-6 show-for-medium">
+         <ul class="icon-left menu-bar condense large-expand">
+           <li ng-show="navbarCtrl.sessionModel.isAuthenticated()"><a><i class="fa fa-cog fa-fw"></i>{{ 'Settings' | translate }}</a></li>
+           <li><a><i class="fa fa-question-circle fa-fw"></i>{{ "Help" | translate }}</a></li>
+           <li ng-show="!navbarCtrl.sessionModel.isAuthenticated()"><a ui-sref="unauthenticated.login"><i class="fa fa-sign-in fa-fw"></i>{{ 'Login' | translate }}</a></li>
+           <li ng-show="navbarCtrl.sessionModel.isAuthenticated()"><a ng-click="navbarCtrl.logout()"><i class="fa fa-sign-out fa-fw"></i>{{ 'Logout' | translate }}</a></li>
+         </ul>
+       </div>
+
+       <!-- Mobile Menu Hamburger -->
+       <div class="menu-group show-for-small-only">
+         <ul class="icon-left menu-bar condense">
+           <li ng-show="navbarCtrl.sessionModel.isAuthenticated()" class="hamburger"><a zf-toggle="primary-mobile-nav"><i class="fa fa-bars"></i></a></li>
+         </ul>
+       </div>
+
+       <!-- Mobile Menu Panel -->
+       <div zf-panel="" id="primary-mobile-nav" position="right" class="panel-fixed">
+         <!-- Menu Title -->
+         <div class="title-bar">
+           <span class="title center">{{ 'Menu' | translate }}</span>
+           <span zf-close="" class="left"><a zf-close="" class="close"><span class="close-icon" ng-include="'svg/close.html'" aria-hidden="true"></span></a></span>
+         </div>
+
+         <ul class="icon-left menu-bar vertical">
+           <li ng-show="navbarCtrl.sessionModel.isAuthenticated()"><a><i class="fa fa-cog fa-fw"></i>{{ "Settings" | translate }}</a></li>
+           <li><a><i class="fa fa-question-circle fa-fw"></i>{{ "Help" | translate }}</a></li>
+           <li ng-show="!navbarCtrl.sessionModel.isAuthenticated()"><a ui-sref="unauthenticated.login"><i class="fa fa-sign-in fa-fw"></i>{{ 'Login' | translate }}</a></li>
+           <li ng-show="navbarCtrl.sessionModel.isAuthenticated()"><a ng-click="navbarCtrl.logout()"><i class="fa fa-sign-out fa-fw"></i>{{ 'Logout' | translate }}</a></li>
+         </ul>
+       </div>
+     </div>
+   </div>
+
+</div>
+
+<!--Secondary Nav-->
+<div class="secondary-nav">
+
+  <div class="grid-container">
+    <ul class="inline-list show-for-medium">
+      <li class="item"
+          ng-repeat="tab in navbarCtrl.getTabs() | orderBy: 'displayOrder'"
+          ng-class="{'active': tab.active }">
+        <a ng-class="{'active': tab.active }"
+           qd-tag="tab_banner_{{tab.state}}"
+           ng-click="navbarCtrl.setTabActive( tab )"
+           ui-sref="{{tab.state}}">{{tab.translationKey | translate}}</a>
+      </li>
+    </ul>
+
+    <div class="menu-group-left show-for-small-only">
+      <ul class="menu-bar condense">
+        <li ng-show="navbarCtrl.sessionModel.isAuthenticated()" class="hamburger"><a zf-toggle="secondary-mobile-nav"><i class="fa fa-bars"></i></a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div zf-panel="" id="secondary-mobile-nav" position="left" class="panel-fixed">
+    <ul class="icon-left menu-bar vertical">
+      <li><a zf-close="" class="close float-right"><i class="fa fa-times" aria-hidden="true"></i></a></li>
+      <li class="item"
+          ng-repeat="tab in navbarCtrl.getTabs() | orderBy: 'displayOrder'"
+          ng-class="{'active': tab.active }">
+        <a ng-class="{'active': tab.active }"
+           qd-tag="tab_mobile_banner_{{tab.state}}"
+           ng-click="navbarCtrl.setTabActive( tab )"
+           ui-sref="{{tab.state}}">{{tab.translationKey | translate}}</a>
+      </li>
+    </ul>
+  </div>
+</div>

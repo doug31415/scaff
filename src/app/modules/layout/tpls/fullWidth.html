@@ -1,0 +1,20 @@
+<!--sidebar-left.html-->
+<div class="isc-app-frame vertical grid-frame">
+
+  <!--main app-->
+  <div class="isc-app-content vertical grid-block">
+
+    <!--Responsive Top Navigation-->
+    <div class="isc-nav-bar" ng-controller="iscNavbarController as navbarCtrl"
+         ng-include="'navContainer/iscNavbar.html'">
+    </div>
+
+    <!--page content-->
+    <div class="page-container grid-block {{layoutCtrl.layoutClass}}" ui-view></div>
+
+  </div>
+
+  <!--footer-->
+  <div class="isc-footer grid-block shrink"
+       ng-include="'navContainer/iscFooter.html'"></div>
+</div>

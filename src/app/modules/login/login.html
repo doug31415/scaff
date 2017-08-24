@@ -1,0 +1,58 @@
+<div class="section-block">
+
+  <div class="grid-block align-center">
+
+    <div class="vertical grid-block small-12 medium-8 large-5">
+
+      <div class="grid-block align-center">
+        <h1>
+          <div>{{'InterSystems HealthShare' | translate }}</div>
+        </h1>
+      </div>
+
+      <div class="grid-block">
+
+        <form class="login" ng-submit="loginCtrl.login()" ng-if="!loginCtrl.userOrgs.length">
+
+          <isc-transclude template-url="login/loginFormItem.html" config-item-translation-key="Username">
+            <control-template>
+              <input type="text" placeholder="Username" qd-tag="login-username" ng-model="loginCtrl.credentials.username">
+            </control-template>
+          </isc-transclude>
+
+          <isc-transclude template-url="login/loginFormItem.html" config-item-translation-key="Password">
+            <control-template>
+              <input type="password" placeholder="Password" qd-tag="login-password" ng-model="loginCtrl.credentials.password">
+            </control-template>
+          </isc-transclude>
+
+          <div class="grid-block margin-top">
+            <div class="grid-block small-8 medium-8 large-8">
+              <div class="grid-content">
+                <a href="#" class="inline" qd-tag="login-forgot-password">{{ 'Forgot Password' | translate }}</a>
+              </div>
+            </div>
+            <div class="grid-block small-4 medium-4 large-4">
+              <div class="grid-content clearfix">
+                <button type="submit" qd-tag="login-btn-login" class="button flat float-right">{{ 'Login' | translate }}</button>
+              </div>
+            </div>
+          </div>
+
+       </form>
+
+        <div class="small-12" ng-if="loginCtrl.userOrgs.length">
+          <isc-transclude config-item-translation-key="Select Organization">
+            <control-template>
+              <select type="text" placeholder="UserOrg" ng-model="loginCtrl.selectedUserOrg" ng-options="org for org in loginCtrl.userOrgs"></select>
+            </control-template>
+          </isc-transclude>
+          <button type="submit" ng-click="loginCtrl.setOrg()" class="button flat float-right">{{ "Continue" | translate}}</button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

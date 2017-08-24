@@ -1,0 +1,3 @@
+Place overrides in this folder.
+There are two different supported algorithms: replace and merge
+The default algorithm is "replace". In order to specify "merge", be sure to add "_UifwMergeAlgorithm" : "merge"' as a property in the json files.
